@@ -42,14 +42,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:id="'row_' + ${serie.id}" th:each="serie: ${list.content}">
+						<tr th:id="'row_' + ${estado.id}" th:each="estado: ${list.content}">
 							<td style="width:150px" class="text-center" th:text="${estado.id}">0</td>
-							<td><a th:href="'javascript:editEstado(\'/estado/ajax/' + ${estado.id} + '\');'"
+							<td><a th:href="'javascript:edit(\'/estado/ajax/' + ${estado.id} + '\');'"
 								th:text="${estado.nome}">...</a></td>
 
 							<td style="width:200px" class="text-center">
 								<a 
-th:href="'javascript:editEstado(\'/estado/ajax/' + ${estado.id} + '\');'"
+th:href="'javascript:edit(\'/estado/ajax/' + ${estado.id} + '\');'"
 									class="btn btn-primary btn-xs"> <i class="fa fa-edit"></i>
 								</a> &nbsp;
 								<a th:href="'javascript:remove('+ ${estado.id} +',\'/estado\');'"
@@ -84,7 +84,7 @@ th:href="'javascript:editEstado(\'/estado/ajax/' + ${estado.id} + '\');'"
 					</div> <!-- modal-header -->
 					<div class="modal-body">
 						<form id="frm" name="frm"
-							method="POST" class="form-vertical">
+							method="POST" class="form-vertical" th:action="@{/estado/ajax}">
 							<input type="hidden" id="id" name="id"/>
 							<div class="form-group">
 								<label for="nome">Nome</label> 
@@ -97,11 +97,11 @@ th:href="'javascript:editEstado(\'/estado/ajax/' + ${estado.id} + '\');'"
 						<button type="button" class="btn" data-dismiss="modal"
 							aria-hid	den="true">Cancelar</button>
 						<button type="button" class="btn btn-success" 
-							onclick="saveUpload('/serie/estado')">Salvar</button>
+							onclick="save('/estado/page')">Salvar</button>
 					</div>
 				</div> <!-- modal-content -->
 			</div> <!-- modal-dialog -->
 		</div> <!-- modal-form -->
-		<script type="text/javascript" th:src="@{/js/crud-estado.js}"></script>
+		<script type="text/javascript" th:src="@{/js/crud.js}"></script>
 	</section>
 </body>

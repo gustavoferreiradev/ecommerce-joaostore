@@ -38,17 +38,14 @@
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/home') ? 'active':''}">
 						<a class="nav-link"  th:href="@{/home}"><i class="fa fa-home"></i> Principal</a>
 					</li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/genero') ? 'active':''}">
-						<a class="nav-link" th:href="@{/genero/page}"><i class="fa fa-book"></i> Gêneros</a>
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/estado/page') ? 'active':''}">
+						<a class="nav-link" th:href="@{/estado/page}"><i class="fa fa-book"></i> Estados</a>
 					</li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/produtora') ? 'active':''}">
-						<a class="nav-link" th:href="@{/produtora/page}"><i class="fa fa-film"></i> Produtoras</a>
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/permissao/page') ? 'active':''}">
+						<a class="nav-link" th:href="@{/permissao/page}"><i class="fa fa-book"></i> Permissões</a>
 					</li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/serie') ? 'active':''}">
-						<a class="nav-link" th:href="@{/serie/page}"><i class="fa fa-tv"></i> Série</a>
-					</li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/episodio') ? 'active':''}">
-						<a class="nav-link" th:href="@{/episodio}"><i class="fa fa-couch"></i> Episódio</a>
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/marca/page') ? 'active':''}">
+						<a class="nav-link" th:href="@{/marca/page}"><i class="fa fa-book"></i> Marcas</a>
 					</li>
 				</ul>
 				<a th:href="@{/logout}" class="btn btn-outline-danger"><i class="fa fa-sign-out-alt"></i> Sair</a>
