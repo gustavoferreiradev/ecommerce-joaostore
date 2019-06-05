@@ -47,6 +47,9 @@
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/marca/page') ? 'active':''}">
 						<a class="nav-link" th:href="@{/marca/page}"><i class="fa fa-book"></i> Marcas</a>
 					</li>
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/cidade/page') ? 'active':''}">
+						<a class="nav-link" th:href="@{/cidade/page}"><i class="fa fa-book"></i> Cidades</a>
+					</li>
 				</ul>
 				<a th:href="@{/logout}" class="btn btn-outline-danger"><i class="fa fa-sign-out-alt"></i> Sair</a>
 			</div>
