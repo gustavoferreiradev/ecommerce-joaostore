@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import br.utfpr.edu.ecommercejoaostore.model.Usuario;
+
 public interface CrudService <T, ID extends Serializable> {
 	
 List<T> findAll();

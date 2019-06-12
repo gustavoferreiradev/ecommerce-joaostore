@@ -44,11 +44,14 @@
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/permissao/page') ? 'active':''}">
 						<a class="nav-link" th:href="@{/permissao/page}"><i class="fa fa-book"></i> Permissões</a>
 					</li>
+										<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/usuario/page') ? 'active':''}">
+						<a class="nav-link" th:href="@{/usuario/page}"><i class="fa fa-book"></i> Usuários</a>
+					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/marca/page') ? 'active':''}">
 						<a class="nav-link" th:href="@{/marca/page}"><i class="fa fa-book"></i> Marcas</a>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/cidade/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/cidade/page}"><i class="fa fa-book"></i> Cidades</a>
+					<a class="nav-link" th:href="@{/cidade/page}"><i class="fa fa-book"></i> Cidades</a>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/fornecedor/page') ? 'active':''}">
 						<a class="nav-link" th:href="@{/fornecedor/page}"><i class="fa fa-book"></i> Fornecedores</a>
