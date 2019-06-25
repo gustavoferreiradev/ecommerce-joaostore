@@ -1,10 +1,14 @@
 package br.utfpr.edu.ecommercejoaostore.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.utfpr.edu.ecommercejoaostore.model.Produto;
@@ -111,5 +116,51 @@ public class ProdutoController extends CrudController <Produto, Integer> {
 			modelAndView2.addObject("pageNumbers", pageNumbers);
 		}
 		return modelAndView2;
+	}
+	
+	@PostMapping("upload")
+	public ResponseEntity<?> save(@Valid Produto entity, BindingResult result,
+			@RequestParam("anexos") MultipartFile[] anexos,
+			HttpServletRequest request){
+		if ( result.hasErrors() ) {
+			return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+		}
+		getService().save(entity);
+		
+		if(anexos.length > 0 && !anexos[0].getOriginalFilename().isEmpty()) {
+			saveFile(entity.getId(), anexos,request);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	private void saveFile(Integer id, MultipartFile[] anexos, HttpServletRequest request) {
+		File dir = new File(request.getServletContext().getRealPath("/images/"));
+		if(!dir.exists()) { 
+			dir.mkdirs(); 
+		}
+		
+		String caminhoAnexo = request.getServletContext().getRealPath("/images/");
+		int i = 0;
+		for(MultipartFile anexo: anexos) {
+		i++;	
+		String extensao = anexo.getOriginalFilename().substring(
+				anexo.getOriginalFilename().lastIndexOf("."),
+				anexo.getOriginalFilename().length());
+		
+		String nomeArquivo = id + "_" + i + extensao;
+		
+		try {
+			FileOutputStream fileOut = new FileOutputStream(new File(caminhoAnexo + nomeArquivo));
+			BufferedOutputStream stream = new BufferedOutputStream(fileOut);
+			stream.write(anexo.getBytes());
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+		
+		
+		
 	}
 }
