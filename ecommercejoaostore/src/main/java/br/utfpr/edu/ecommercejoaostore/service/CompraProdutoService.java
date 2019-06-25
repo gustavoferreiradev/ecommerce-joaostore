@@ -1,6 +1,8 @@
 package br.utfpr.edu.ecommercejoaostore.service;
 
-public interface CompraProdutoService extends CrudService <CompraProdutoService, Integer> {
+import br.utfpr.edu.ecommercejoaostore.model.CompraProduto;
+
+public interface CompraProdutoService extends CrudService <CompraProduto, Integer> {
 	
 	
 
