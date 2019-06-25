@@ -24,18 +24,17 @@ import lombok.ToString;
 @ToString
 public class CompraProduto implements Serializable {
 
-private static final long serialVersionUID = -401323038784266407L;
+	private static final long serialVersionUID = -401323038784266407L;
 
-@EmbeddedId
-private CompraProdutoPK id;
+	@EmbeddedId
+	private CompraProdutoPK id;
 
-@NotNull (message = "preencha a quantidade!")
-@Column(name = "quantidade", nullable = false)
-private Integer quantidade;
+	@NotNull(message = "preencha a quantidade!")
+	@Column(name = "quantidade", nullable = false)
+	private Integer quantidade;
 
-@NotNull (message = "Favor informar o valor!")
-@Column(name = "valor", nullable = false)
-private Double valor;	
-	
+	@NotNull(message = "Favor informar o valor!")
+	@Column(name = "valor", nullable = false)
+	private Double valor;
 
 }

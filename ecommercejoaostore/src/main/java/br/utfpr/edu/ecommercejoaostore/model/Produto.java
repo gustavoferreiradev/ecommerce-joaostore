@@ -45,7 +45,7 @@ public class Produto implements Serializable {
 	private String descricao;
 	
 	@NotEmpty(message = "Preencha o tamanho!")
-	@Column(name = "nome", length = 100, nullable = false)
+	@Column(name = "tamanho", length = 100, nullable = false)
 	private String tamanho;
 	
 	@NotNull(message = "Selecione uma categoria!")

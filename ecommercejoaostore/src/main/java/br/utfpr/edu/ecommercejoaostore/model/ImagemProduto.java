@@ -23,10 +23,10 @@ public class ImagemProduto {
 	@EmbeddedId
 	private ImagemProdutoPK id;
 	
-	@Column(name = "resumo", length = 100, nullable = true)
+	@Column(name = "title", length = 100, nullable = true)
 	private String title;
 	
-	@Column(name = "resumo", length = 100, nullable = true)
+	@Column(name = "alt", length = 100, nullable = true)
 	private String alt;	
 
 }

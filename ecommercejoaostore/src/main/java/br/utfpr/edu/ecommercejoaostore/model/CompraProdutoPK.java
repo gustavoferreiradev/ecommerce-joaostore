@@ -19,11 +19,11 @@ import lombok.NoArgsConstructor;
 public class CompraProdutoPK implements Serializable {
 
 	@ManyToOne
-	@JoinColumn (name = "produto_id", referencedColumnName = "id")
+	@JoinColumn(name = "produto_id", referencedColumnName = "id")
 	private Produto produto;
-	    
-    @ManyToOne
-	@JoinColumn (name = "compra_id", referencedColumnName = "id")
-    private Compra compra;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "compra_id", referencedColumnName = "id")
+	private Compra compra;
+
 }

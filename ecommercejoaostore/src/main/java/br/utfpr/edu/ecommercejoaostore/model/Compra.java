@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -48,6 +49,7 @@ public class Compra implements Serializable {
 	private LocalDate data;
 	
 	@NotNull (message = "o campo fornecedor deve ser selecionado!")
+	@ManyToOne
 	@JoinColumn (name = "fornecedor_id", referencedColumnName = "id")
 	private Fornecedor fornecedor;
 	

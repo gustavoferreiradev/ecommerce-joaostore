@@ -29,6 +29,7 @@ import br.utfpr.edu.ecommercejoaostore.service.MarcaService;
 import br.utfpr.edu.ecommercejoaostore.service.ProdutoService;
 
 @Controller
+@RequestMapping ("produto")
 public class ProdutoController extends CrudController <Produto, Integer> {
 
 	@Autowired
