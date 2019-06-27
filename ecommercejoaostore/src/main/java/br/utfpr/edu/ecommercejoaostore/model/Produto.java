@@ -58,6 +58,6 @@ public class Produto implements Serializable {
 	@JoinColumn(name = "marca_id", referencedColumnName="id")
 	private Marca marca;
 	
-	@OneToMany(mappedBy = "id.produto",cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy = "produto",cascade= {CascadeType.PERSIST,CascadeType.MERGE})
 	private List <ImagemProduto> imagensProduto;
 }

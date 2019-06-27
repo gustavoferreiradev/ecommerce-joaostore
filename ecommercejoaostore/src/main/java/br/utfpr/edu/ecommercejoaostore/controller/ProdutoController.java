@@ -3,6 +3,7 @@ package br.utfpr.edu.ecommercejoaostore.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.utfpr.edu.ecommercejoaostore.model.ImagemProduto;
 import br.utfpr.edu.ecommercejoaostore.model.Produto;
 import br.utfpr.edu.ecommercejoaostore.service.CategoriaService;
 import br.utfpr.edu.ecommercejoaostore.service.CrudService;
@@ -34,18 +36,18 @@ import br.utfpr.edu.ecommercejoaostore.service.MarcaService;
 import br.utfpr.edu.ecommercejoaostore.service.ProdutoService;
 
 @Controller
-@RequestMapping ("produto")
-public class ProdutoController extends CrudController <Produto, Integer> {
+@RequestMapping("produto")
+public class ProdutoController extends CrudController<Produto, Integer> {
 
 	@Autowired
 	private ProdutoService produtoService;
-	
+
 	@Autowired
 	private CategoriaService categoriaService;
-	
+
 	@Autowired
 	private MarcaService marcaService;
-	
+
 	@Override
 	protected CrudService<Produto, Integer> getService() {
 		return produtoService;
@@ -57,12 +59,12 @@ public class ProdutoController extends CrudController <Produto, Integer> {
 	}
 
 	@Override
-	@RequestMapping ("new")
-		protected ModelAndView form(Produto produto) {
+	@RequestMapping("new")
+	protected ModelAndView form(Produto produto) {
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
 		if (produto != null) {
 			modelAndView.addObject(produto);
-		}else {
+		} else {
 			modelAndView.addObject(new Produto());
 		}
 		return modelAndView;
@@ -71,96 +73,95 @@ public class ProdutoController extends CrudController <Produto, Integer> {
 	@Override
 	@GetMapping("{id}")
 	protected ModelAndView form(@PathVariable Integer id) {
-		    ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
-			modelAndView.addObject(this.getService().findOne(id));
-			return modelAndView;
+		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
+		modelAndView.addObject(this.getService().findOne(id));
+		return modelAndView;
 	}
-	
+
 	@PostMapping("ajax")
-	public ResponseEntity<?> save(@Valid Produto entity, BindingResult result){
-		if ( result.hasErrors() ) {
+	public ResponseEntity<?> save(@Valid Produto entity, BindingResult result) {
+		if (result.hasErrors()) {
 			return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 		}
 		getService().save(entity);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping("ajax/{id}")
 	@ResponseBody
 	public Produto edit(@PathVariable Integer id) {
 		return getService().findOne(id);
 	}
-	
+
 	@Override
 	@GetMapping("page")
 	public ModelAndView list(@RequestParam("page") Optional<Integer> page,
-							 @RequestParam("size") Optional<Integer> size) {
+			@RequestParam("size") Optional<Integer> size) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
-		
-		Page<Produto> list = this.getService().findAll( 
-				PageRequest.of(currentPage -1, pageSize) );
-		
+
+		Page<Produto> list = this.getService().findAll(PageRequest.of(currentPage - 1, pageSize));
+
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/list");
 		modelAndView.addObject("list", list);
-		modelAndView.addObject("categorias", categoriaService.findAll() );
-		
-		ModelAndView modelAndView2 = new ModelAndView(this.getURL() + "/list");
-		modelAndView2.addObject("list", list);
-		modelAndView2.addObject("marcas", marcaService.findAll() );
-		
-		if( list.getTotalPages() > 0) {
-			List<Integer> pageNumbers = IntStream
-					.rangeClosed(1, list.getTotalPages())
-					.boxed().collect(Collectors.toList());
-			modelAndView2.addObject("pageNumbers", pageNumbers);
+		modelAndView.addObject("categorias", categoriaService.findAll());
+
+
+		modelAndView.addObject("marcas", marcaService.findAll());
+
+		if (list.getTotalPages() > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, list.getTotalPages()).boxed()
+					.collect(Collectors.toList());
+			modelAndView.addObject("pageNumbers", pageNumbers);
 		}
-		return modelAndView2;
+		return modelAndView;
 	}
-	
+
 	@PostMapping("upload")
 	public ResponseEntity<?> save(@Valid Produto entity, BindingResult result,
-			@RequestParam("anexos") MultipartFile[] anexos,
-			HttpServletRequest request){
-		if ( result.hasErrors() ) {
+			@RequestParam("anexos") MultipartFile[] anexos, HttpServletRequest request) {
+		if (result.hasErrors()) {
 			return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 		}
 		getService().save(entity);
-		
-		if(anexos.length > 0 && !anexos[0].getOriginalFilename().isEmpty()) {
-			saveFile(entity.getId(), anexos,request);
+
+		if (anexos.length > 0 && !anexos[0].getOriginalFilename().isEmpty()) {
+			saveFile(entity, anexos, request);
 		}
-		
+		getService().save(entity);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	private void saveFile(Integer id, MultipartFile[] anexos, HttpServletRequest request) {
+
+	private void saveFile(Produto produto, MultipartFile[] anexos, HttpServletRequest request) {
 		File dir = new File(request.getServletContext().getRealPath("/images/"));
-		if(!dir.exists()) { 
-			dir.mkdirs(); 
+		if (!dir.exists()) {
+			dir.mkdirs();
 		}
-		
+
 		String caminhoAnexo = request.getServletContext().getRealPath("/images/");
 		int i = 0;
-		for(MultipartFile anexo: anexos) {
-		i++;	
-		String extensao = anexo.getOriginalFilename().substring(
-				anexo.getOriginalFilename().lastIndexOf("."),
-				anexo.getOriginalFilename().length());
-		
-		String nomeArquivo = id + "_" + i + extensao;
-		
-		try {
-			FileOutputStream fileOut = new FileOutputStream(new File(caminhoAnexo + nomeArquivo));
-			BufferedOutputStream stream = new BufferedOutputStream(fileOut);
-			stream.write(anexo.getBytes());
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		produto.setImagensProduto(new ArrayList<>());
+		for (MultipartFile anexo : anexos) {
+			i++;
+			String extensao = anexo.getOriginalFilename().substring(anexo.getOriginalFilename().lastIndexOf("."),
+					anexo.getOriginalFilename().length());
+
+			String nomeArquivo = produto.getId() + "_" + i + extensao;
+
+			try {
+				FileOutputStream fileOut = new FileOutputStream(new File(caminhoAnexo + nomeArquivo));
+				BufferedOutputStream stream = new BufferedOutputStream(fileOut);
+				stream.write(anexo.getBytes());
+				stream.close();
+				ImagemProduto imagem = new ImagemProduto();
+				imagem.setProduto(produto);
+				imagem.setCaminho(nomeArquivo);
+				
+				produto.getImagensProduto().add(imagem);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-	}
-		
-		
-		
+
 	}
 }
