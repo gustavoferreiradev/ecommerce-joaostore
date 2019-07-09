@@ -30,6 +30,11 @@ import lombok.ToString;
 @ToString
 public class Produto implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3089538750333537187L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -60,4 +65,7 @@ public class Produto implements Serializable {
 	
 	@OneToMany(mappedBy = "produto",cascade= {CascadeType.PERSIST,CascadeType.MERGE})
 	private List <ImagemProduto> imagensProduto;
+	
+//	@OneToMany(mappedBy = "produto",cascade= {CascadeType.PERSIST,CascadeType.MERGE})
+//	private List <CompraProduto> comprasProduto;
 }

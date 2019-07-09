@@ -35,28 +35,19 @@ import lombok.ToString;
 public class Compra implements Serializable {
 
 	private static final long serialVersionUID = 9041642480930592442L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@NotNull (message = "Preencha o número da nota fiscal!")
 	@Column(name = "nf", nullable = false)
-	private Integer NF;
+	private Integer nf;
 	
 	@NotNull (message = "Preencha a data de compra!")
 	@Column(name = "data", nullable = false)
-	private LocalDate data;
-	
-	@NotNull (message = "o campo fornecedor deve ser selecionado!")
-	@ManyToOne
-	@JoinColumn (name = "fornecedor_id", referencedColumnName = "id")
-	private Fornecedor fornecedor;
-	
-	@NotNull (message = "preencha a quantidade!")
-	@Column(name = "quantidade", nullable = false)
-	private Integer quantidade;
-	
+	private LocalDate data;	
+		
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "id.compra", fetch = FetchType.EAGER)
     private List<CompraProduto> compraProdutos;
     
