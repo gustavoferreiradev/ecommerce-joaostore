@@ -41,5 +41,6 @@ public class CompraProduto implements Serializable {
 	@NotNull(message = "Favor informar o valor!")
 	@Column(name = "valor", nullable = false)
 	private Double valor;
+	
 
 }

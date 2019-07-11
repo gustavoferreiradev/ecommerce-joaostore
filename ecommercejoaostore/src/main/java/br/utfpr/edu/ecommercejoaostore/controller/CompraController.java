@@ -146,18 +146,30 @@ public class CompraController extends CrudController <Compra, Integer>{
 	}
 	
 	@PostMapping("add")
-	public ResponseEntity<?> add(@RequestParam("produto") Integer id, Model model,
+	public ModelAndView add(@RequestParam("produto") Integer id, Model model,
+			@RequestParam("quantidade") Integer quantidade,
+			@RequestParam("valor") Double valor,
 			@ModelAttribute("carrinho") List<CompraProduto> carrinho) {
 		CompraProduto compraProduto = new CompraProduto();
 		CompraProdutoPK compraProdutoPK = new CompraProdutoPK();
 		compraProdutoPK.setProduto(produtoService.findOne(id));
 		compraProduto.setId(compraProdutoPK);
-		compraProduto.setQuantidade(1);
-		compraProduto.setValor(100D);
+		compraProduto.setQuantidade(quantidade);
+		compraProduto.setValor(valor);
 		carrinho.add(compraProduto);
 		model.addAttribute("carrinho", carrinho);		
 			
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ModelAndView("redirect:/" + this.getURL() + "/new");
 	}
+	
+	@GetMapping("limpar")
+	public ModelAndView limpar (Model model, @ModelAttribute("carrinho") List<CompraProduto> carrinho) {
+		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
+			modelAndView.addObject("fornecedores",fornecedorService.findAll());
+		modelAndView.addObject("produtos",produtoService.findAll());
+		model.addAttribute("carrinho", null);
+		return modelAndView;
+	}
+	
 
 }

@@ -55,6 +55,7 @@ public class Produto implements Serializable {
 	@Column(name = "tamanho", length = 100, nullable = false)
 	private String tamanho;
 	
+
 	@NotNull(message = "Selecione uma categoria!")
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private Categoria categoria;
