@@ -44,7 +44,7 @@
 					<tbody>
 						<tr th:id="'row_' + ${cliente.id}" th:each="cliente: ${list.content}">
 							<td style="width:150px" class="text-center" th:text="${cliente.id}">0</td>
-							<td><a th:href="'javascript:editFornecedor(\'/cliente/ajax/' + ${cliente.id} + '\');'"
+							<td><a th:href="'javascript:editCliente(\'/cliente/ajax/' + ${cliente.id} + '\');'"
 								th:text="${cliente.nome}">...</a></td>
 
 							<td style="width:200px" class="text-center">
