@@ -26,3 +26,13 @@ INSERT INTO Estado (nome) VALUES ('Sao Paulo');
 INSERT INTO Estado (nome) VALUES ('Sergipe');
 INSERT INTO Estado (nome) VALUES ('Tocantins');
 
+INSERT INTO Cidade (nome,estado_id) VALUES ('Sao Paulo',25); 
+
+INSERT INTO Marca (nome) VALUES ('Teste');
+
+INSERT INTO Categoria (nome) VALUES ('Teste');
+
+INSERT INTO Fornecedor (razaoSocial,cnpj,rua,bairro,cep,complemento,referencia,cidade_id) VALUES ('Fulanos Ltda',123456,'Rua Maravilha','Jardins',01475,'Casa','Proximo Avenida',1);
+
+INSERT INTO Cliente (nome,cpf,rua,bairro,cep,complemento,referencia,cidade_id) VALUES ('Fulano',123456,'Rua Maravilha','Jardins',01475,'Casa','Proximo Avenida',1);
+

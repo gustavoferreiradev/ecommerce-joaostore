@@ -27,58 +27,59 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.utfpr.edu.ecommercejoaostore.model.Compra;
 import br.utfpr.edu.ecommercejoaostore.model.CompraProduto;
-import br.utfpr.edu.ecommercejoaostore.model.CompraProdutoPK;
-import br.utfpr.edu.ecommercejoaostore.service.CompraProdutoService;
-import br.utfpr.edu.ecommercejoaostore.service.CompraService;
+import br.utfpr.edu.ecommercejoaostore.model.Venda;
+import br.utfpr.edu.ecommercejoaostore.model.VendaProduto;
+import br.utfpr.edu.ecommercejoaostore.model.VendaProdutoPK;
+import br.utfpr.edu.ecommercejoaostore.service.ClienteService;
 import br.utfpr.edu.ecommercejoaostore.service.CrudService;
-import br.utfpr.edu.ecommercejoaostore.service.FornecedorService;
 import br.utfpr.edu.ecommercejoaostore.service.ProdutoService;
+import br.utfpr.edu.ecommercejoaostore.service.VendaProdutoService;
+import br.utfpr.edu.ecommercejoaostore.service.VendaService;
 
 @Controller
-@RequestMapping ("compra")
+@RequestMapping ("venda")
 @SessionAttributes("carrinho")
 
-public class CompraController extends CrudController <Compra, Integer>{
+public class VendaController extends CrudController <Venda, Integer>{
 
 	@Autowired
-	private CompraService compraService;
+	private VendaService vendaService;
 	
 	@Autowired
-	private CompraProdutoService compraProdutoService;
+	private VendaProdutoService vendaProdutoService;
 	
 	@Autowired
-	private FornecedorService fornecedorService;	
+	private ClienteService clienteService;	
 		
 	@Autowired
 	private ProdutoService produtoService;
 	
 	@ModelAttribute("carrinho")
-	private List<CompraProduto> getWatchList() {
+	private List<VendaProduto> getWatchList() {
 		return new ArrayList<>();
 	}
 
 	@Override
-	protected CrudService<Compra, Integer> getService(){
-		return compraService;
+	protected CrudService<Venda, Integer> getService(){
+		return vendaService;
 	}
 	
 	@Override
 	protected String getURL() {
-		return "compra";
+		return "venda";
 	}
 	
 	@Override
 	@GetMapping("new")
-	protected ModelAndView form(Compra compra) {
+	protected ModelAndView form(Venda venda) {
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
-		if (compra != null) {
-			modelAndView.addObject(compra);
+		if (venda != null) {
+			modelAndView.addObject(venda);
 		}else {
-			modelAndView.addObject(new Compra());
+			modelAndView.addObject(new Venda());
 		}
-		modelAndView.addObject("fornecedores",fornecedorService.findAll());
+		modelAndView.addObject("clientes",clienteService.findAll());
 		modelAndView.addObject("produtos",produtoService.findAll());
 		return modelAndView;
 	}
@@ -92,21 +93,21 @@ public class CompraController extends CrudController <Compra, Integer>{
 		return modelAndView;
 	}
 	@PostMapping("save")
-	public ModelAndView save(@Valid Compra entity, BindingResult result, 
+	public ModelAndView save(@Valid Venda entity, BindingResult result, 
 			RedirectAttributes attributes, Model model,
-			@ModelAttribute("carrinho") List<CompraProduto> carrinho) {
+			@ModelAttribute("carrinho") List<VendaProduto> carrinho) {
 		if ( result.hasErrors() ) {
 			return form(entity);
 		}
 		
-		carrinho.forEach(c -> c.getId().setCompra(entity));
+		carrinho.forEach(c -> c.getId().setVenda(entity));
 		this.getService().save(entity);
 		model.addAttribute("carrinho", new ArrayList<>());
 		attributes.addFlashAttribute("mensagem", "Registro salvo com sucesso!");
 		return new ModelAndView("redirect:/" + this.getURL() + "/page");
 	}
 	@PostMapping("ajax")
-	public ResponseEntity<?> save(@Valid Compra entity, BindingResult result){
+	public ResponseEntity<?> save(@Valid Venda entity, BindingResult result){
 		if ( result.hasErrors() ) {
 			return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 		}
@@ -116,7 +117,7 @@ public class CompraController extends CrudController <Compra, Integer>{
 	
 	@GetMapping("ajax/{id}")
 	@ResponseBody
-	public Compra edit(@PathVariable Integer id) {
+	public Venda edit(@PathVariable Integer id) {
 		return getService().findOne(id);
 	}
 	
@@ -127,12 +128,12 @@ public class CompraController extends CrudController <Compra, Integer>{
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 		
-		Page<Compra> list = this.getService().findAll( 
+		Page<Venda> list = this.getService().findAll( 
 				PageRequest.of(currentPage -1, pageSize) );
 		
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/list");
 		modelAndView.addObject("list", list);
-		modelAndView.addObject("fornecedores", fornecedorService.findAll() );
+		modelAndView.addObject("clientes", clienteService.findAll() );
 		modelAndView.addObject("produtos", produtoService.findAll() );
 
 
@@ -150,23 +151,23 @@ public class CompraController extends CrudController <Compra, Integer>{
 	public ModelAndView add(@RequestParam("produto") Integer id, Model model,
 			@RequestParam("quantidade") Integer quantidade,
 			@RequestParam("valor") Double valor,
-			@ModelAttribute("carrinho") List<CompraProduto> carrinho) {
-		CompraProduto compraProduto = new CompraProduto();
-		CompraProdutoPK compraProdutoPK = new CompraProdutoPK();
-		compraProdutoPK.setProduto(produtoService.findOne(id));
-		compraProduto.setId(compraProdutoPK);
-		compraProduto.setQuantidade(quantidade);
-		compraProduto.setValor(valor);
-		carrinho.add(compraProduto);
+			@ModelAttribute("carrinho") List<VendaProduto> carrinho) {
+		VendaProduto vendaProduto = new VendaProduto();
+		VendaProdutoPK vendaProdutoPK = new VendaProdutoPK();
+		vendaProdutoPK.setProduto(produtoService.findOne(id));
+		vendaProduto.setId(vendaProdutoPK);
+		vendaProduto.setQuantidade(quantidade);
+		vendaProduto.setValor(valor);
+		carrinho.add(vendaProduto);
 		model.addAttribute("carrinho", carrinho);		
 			
 		return new ModelAndView("redirect:/" + this.getURL() + "/new");
 	}
 	
 	@GetMapping("limpar")
-	public ModelAndView limpar (Model model, @ModelAttribute("carrinho") List<CompraProduto> carrinho) {
+	public ModelAndView limpar (Model model, @ModelAttribute("carrinho") List<VendaProduto> carrinho) {
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
-			modelAndView.addObject("fornecedores",fornecedorService.findAll());
+			modelAndView.addObject("clientes",clienteService.findAll());
 		modelAndView.addObject("produtos",produtoService.findAll());
 		model.addAttribute("carrinho", new ArrayList<>());
 		return modelAndView;

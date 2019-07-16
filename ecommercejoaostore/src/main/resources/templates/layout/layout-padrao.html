@@ -35,8 +35,8 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/home') ? 'active':''}">
-						<a class="nav-link"  th:href="@{/home}"><i class="fa fa-home"></i> Principal</a>
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/') ? 'active':''}">
+						<a class="nav-link"  th:href="@{/}"><i class="fa fa-home"></i> Principal</a>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/estado/page') ? 'active':''}">
 						<a class="nav-link" th:href="@{/estado/page}"><i class="fas fa-city"></i> Estados</a>

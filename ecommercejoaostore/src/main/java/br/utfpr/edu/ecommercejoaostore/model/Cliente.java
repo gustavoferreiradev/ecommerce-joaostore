@@ -34,6 +34,10 @@ private static final long serialVersionUID = -8900218684789817676L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotEmpty(message = "Preencha o Nome!")
+	@Column (name = "nome", length = 100, nullable = false)
+	private String nome;
+	
 	@NotNull(message = "Preencha o CPF!")
 	@Column(name = "cpf", length = 14, nullable = false)
 	private Long cpf;

@@ -34,43 +34,47 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="navbar-nav mr-auto">
-				<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/home') ? 'active':''}">
-						<a class="nav-link"  th:href="@{/home}"><i class="fa fa-home"></i> Principal</a>
+				<<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/') ? 'active':''}">
+						<a class="nav-link"  th:href="@{/}"><i class="fa fa-home"></i> Principal</a>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/estado/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/estado/page}"><i class="fa fa-book"></i> Estados</a>
+						<a class="nav-link" th:href="@{/estado/page}"><i class="fas fa-city"></i> Estados</a>
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/cidade/page') ? 'active':''}">
+					<a class="nav-link" th:href="@{/cidade/page}"><i class="fas fa-city"></i> Cidades</a>
+					</li>
+					
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/fornecedor/page') ? 'active':''}">
+					<a class="nav-link" th:href="@{/fornecedor/page}"><i class="fas fa-building"></i> Fornecedores</a>
+					</li>
+					
+					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/cliente/page') ? 'active':''}">
+						<a class="nav-link" th:href="@{/cliente/page}"><i class="fas fa-users"></i> Clientes</a>
+					</li>
+						
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/permissao/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/permissao/page}"><i class="fa fa-book"></i> Permissões</a>
+						<a class="nav-link" th:href="@{/permissao/page}"><i class="fas fa-lock"></i> Permissões</a>
 					</li>
 										<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/usuario/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/usuario/page}"><i class="fa fa-book"></i> Usuários</a>
+						<a class="nav-link" th:href="@{/usuario/page}"><i class="fa fa-user"></i> Usuários</a>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/marca/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/marca/page}"><i class="fa fa-book"></i> Marcas</a>
-					</li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/cidade/page') ? 'active':''}">
-					<a class="nav-link" th:href="@{/cidade/page}"><i class="fa fa-book"></i> Cidades</a>
-					</li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/fornecedor/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/fornecedor/page}"><i class="fa fa-book"></i> Fornecedores</a>
+						<a class="nav-link" th:href="@{/marca/page}"><i class="fas fa-registered"></i> Marcas</a>
 					</li>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/categoria/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/categoria/page}"><i class="fa fa-book"></i> Categorias</a>
+						<a class="nav-link" th:href="@{/categoria/page}"><i class="fas fa-tag"></i> Categorias</a>
 					</li>
 						<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/produto/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/produto/page}"><i class="fa fa-book"></i> Produtos</a>
+						<a class="nav-link" th:href="@{/produto/page}"><i class="fas fa-boxes"></i> Produtos</a>
 					</li>
 						<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/compra/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/compra/page}"><i class="fa fa-book"></i> Compras</a>
+						<a class="nav-link" th:href="@{/compra/page}"><i class="fas fa-shopping-cart"></i> Compras</a>
 					</li>
 					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/venda/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/venda/page}"><i class="fa fa-book"></i> Vendas</a>
+						<a class="nav-link" th:href="@{/venda/page}"><i class="fas fa-shopping-cart"></i> Vendas</a>
 					</li>
-					<li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/cliente/page') ? 'active':''}">
-						<a class="nav-link" th:href="@{/cliente/page}"><i class="fa fa-book"></i> Clientes</a>
-					</li>
+
 				</ul>
 				<a th:href="@{/logout}" class="btn btn-outline-danger"><i class="fa fa-sign-out-alt"></i> Sair</a>
 			</div>

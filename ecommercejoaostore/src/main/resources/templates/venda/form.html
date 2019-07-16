@@ -11,7 +11,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-8">
-						<h2>Formulário de Compras</h2>
+						<h2>Formulário de Vendas</h2>
 					</div>
 				</div>
 			</div>
@@ -25,7 +25,7 @@
 			</div>
 
 			<form id="frm" name="frm" method="POST" class="form-vertical"
-				th:action="@{/compra/save}">
+				th:action="@{/venda/save}">
 				<input type="hidden" id="id" name="id" />
 				<div class="form-group">
 					<label for="nf">NF</label> <input type="text" class="form-control"
@@ -37,11 +37,11 @@
 						class="datepicker form-control" id="data" name="data" />
 				</div>
 				<div class="form-group">
-					<label for="fornecedor">Fornecedor</label> <select id="fornecedor"
-						name="fornecedor" class="form-control">
+					<label for="cliente">Cliente</label> <select id="cliente"
+						name="cliente" class="form-control">
 						<option value="">(Selecione)</option>
-						<option th:each="fornecedor: ${fornecedores}"
-							th:value="${fornecedor.id}" th:text="${fornecedor.razaoSocial}"></option>
+						<option th:each="cliente: ${clientes}"
+							th:value="${cliente.id}" th:text="${cliente.nome}"></option>
 					</select>
 				</div>
 				<button type="submit" class="btn btn-success">Salvar</button>
@@ -49,7 +49,7 @@
 
 
 			<form id="frmProduto" name="frmProduto" method="POST"
-				class="form-vertical" th:action="@{/compra/add/}">
+				class="form-vertical" th:action="@{/venda/add/}">
 				<div class="form-group">
 					<label for="produto">Produto</label> <select id="produto"
 						name="produto" class="form-control">
@@ -81,12 +81,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:id="'row_' + ${compraProduto.id.produto.id}"
-							th:each="compraProduto: ${carrinho}">
+						<tr th:id="'row_' + ${vendaProduto.id.produto.id}"
+							th:each="vendaProduto: ${carrinho}">
 							<td style="width: 150px" class="text-center"
-								th:text="${compraProduto.id.produto.nome}">0</td>
-							<td th:text="${compraProduto.quantidade}"></td>
-							<td th:text="${compraProduto.valor}"></td>
+								th:text="${vendaProduto.id.produto.nome}">0</td>
+							<td th:text="${vendaProduto.quantidade}"></td>
+							<td th:text="${vendaProduto.valor}"></td>
 						</tr>
 						<tr th:if="${carrinho.empty}">
 							<td colspan="3">Nenhum registro encontrado.</td>
@@ -99,7 +99,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h3>Compras</h3>
+						<h3>Vendas</h3>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">x</button>
 					</div>
@@ -111,6 +111,6 @@
 			</div>
 			<!-- modal-form -->
 		</div>
-		<script type="text/javascript" th:src="@{/js/crud-compra.js}"></script>
+		<script type="text/javascript" th:src="@{/js/crud-venda.js}"></script>
 	</section>
 </body>

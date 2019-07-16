@@ -1,6 +1,9 @@
 package br.utfpr.edu.ecommercejoaostore.controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
@@ -19,36 +22,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.utfpr.edu.ecommercejoaostore.model.Categoria;
 import br.utfpr.edu.ecommercejoaostore.model.Cliente;
-import br.utfpr.edu.ecommercejoaostore.service.CategoriaService;
 import br.utfpr.edu.ecommercejoaostore.service.CidadeService;
-import br.utfpr.edu.ecommercejoaostore.service.ClienteService;
 import br.utfpr.edu.ecommercejoaostore.service.CrudService;
+import br.utfpr.edu.ecommercejoaostore.service.ClienteService;
 
 @Controller
-@RequestMapping ("cliente")
+@RequestMapping("cliente")
 public class ClienteController extends CrudController <Cliente, Integer> {
 	
-	@Autowired
+	@Autowired	
 	private ClienteService clienteService;
-	
+
 	@Autowired
 	private CidadeService cidadeService;
 	
 	@Override
 	protected CrudService<Cliente, Integer> getService() {
 		return clienteService;
-	} 
-
+	}
+	
 	
 	@Override
 	protected String getURL() {
 		return "cliente";
 	}
-	
+
 	@Override
-	@GetMapping("new")
+	@RequestMapping ("new")
 	protected ModelAndView form(Cliente cliente) {
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
 		if (cliente != null) {
@@ -58,10 +59,11 @@ public class ClienteController extends CrudController <Cliente, Integer> {
 		}
 		return modelAndView;
 	}
-	
+
 	@Override
+	@GetMapping("{id}")
 	protected ModelAndView form(@PathVariable Integer id) {
-	    ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
+        ModelAndView modelAndView = new ModelAndView(this.getURL() + "/form");
 		modelAndView.addObject(this.getService().findOne(id));
 		return modelAndView;
 	}
@@ -94,8 +96,17 @@ public class ClienteController extends CrudController <Cliente, Integer> {
 		ModelAndView modelAndView = new ModelAndView(this.getURL() + "/list");
 		modelAndView.addObject("list", list);
 		modelAndView.addObject("cidades", cidadeService.findAll() );
-		
-		return modelAndView;
- }
-}
 
+
+		if( list.getTotalPages() > 0) {
+			List<Integer> pageNumbers = IntStream
+					.rangeClosed(1, list.getTotalPages())
+					.boxed().collect(Collectors.toList());
+			modelAndView.addObject("pageNumbers", pageNumbers);
+		}
+		return modelAndView;
+		
+	}
+	
+
+}
